@@ -25,5 +25,11 @@
   "bugs": {
     "url": "https://github.com/SamVerschueren/gulp-cordova-plugin-remove/issues"
   },
-  "homepage": "https://github.com/SamVerschueren/gulp-cordova-plugin-remove"
+  "homepage": "https://github.com/SamVerschueren/gulp-cordova-plugin-remove",
+  "dependencies": {
+    "cordova-lib": "^5.1.1",
+    "gulp-util": "^3.0.6",
+    "q": "^1.4.1",
+    "through2": "^2.0.0"
+  }
 }
