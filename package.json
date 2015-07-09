@@ -1,0 +1,29 @@
+{
+  "name": "gulp-cordova-plugin-remove",
+  "version": "0.0.1",
+  "description": "This library removes a cordova plugin from the cordova project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SamVerschueren/gulp-cordova-plugin-remove.git"
+  },
+  "keywords": [
+    "cordova",
+    "plugin",
+    "remove",
+    "gulp",
+    "gulpjs"
+  ],
+  "author": {
+    "name": "Sam Verschueren",
+    "email": "sam.verschueren@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SamVerschueren/gulp-cordova-plugin-remove/issues"
+  },
+  "homepage": "https://github.com/SamVerschueren/gulp-cordova-plugin-remove"
+}
