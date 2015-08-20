@@ -1,5 +1,7 @@
 # gulp-cordova-plugin-remove
 
+[![Build Status](https://travis-ci.org/SamVerschueren/gulp-cordova-plugin-remove.svg?branch=master)](https://travis-ci.org/SamVerschueren/gulp-cordova-plugin-remove)
+
 > Removes a cordova plugin from the cordova project
 
 ## Installation
