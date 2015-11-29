@@ -42,3 +42,13 @@ test.serial('rm list', async t => {
 	t.same(cordova.raw.plugin.args[0], ['rm', 'foo']);
 	t.same(cordova.raw.plugin.args[1], ['rm', 'bar']);
 });
+
+test.serial('error', async t => {
+	cordova.raw.plugin = function () {
+		return new Promise((resolve, reject) => {
+			reject(new Error('something went wrong'));
+		});
+	}
+
+	await t.throws(plugin('foo'), 'something went wrong');
+});

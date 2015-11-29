@@ -1,25 +1,28 @@
 # gulp-cordova-plugin-remove
 
 [![Build Status](https://travis-ci.org/SamVerschueren/gulp-cordova-plugin-remove.svg?branch=master)](https://travis-ci.org/SamVerschueren/gulp-cordova-plugin-remove)
+[![Coverage Status](https://coveralls.io/repos/SamVerschueren/gulp-cordova-plugin-remove/badge.svg?branch=master&service=github)](https://coveralls.io/github/SamVerschueren/gulp-cordova-plugin-remove?branch=master)
 
 > Removes a cordova plugin from the cordova project
 
+
 ## Installation
 
-```bash
+```
 npm install --save-dev gulp-cordova-plugin-remove
 ```
 
+
 ## Usage
 
-```JavaScript
-var gulp = require('gulp'),
-    create = require('gulp-cordova-create'),
-    android = require('gulp-cordova-build-android'),
-    plugin = require('gulp-cordova-plugin'),
-    rmplugin = require('gulp-cordova-plugin-remove');
+```js
+const gulp = require('gulp');
+const create = require('gulp-cordova-create');
+const android = require('gulp-cordova-build-android');
+const plugin = require('gulp-cordova-plugin');
+const rmplugin = require('gulp-cordova-plugin-remove');
 
-gulp.task('build', function() {
+gulp.task('build', () => {
     return gulp.src('dist')
         .pipe(create())
         .pipe(plugin('cordova-plugin-console'))
@@ -29,6 +32,7 @@ gulp.task('build', function() {
 ```
 
 This will first add the plugin, builds the `android` project and then it removes the plugin again.
+
 
 ## API
 
@@ -50,13 +54,11 @@ Type: `string[]`
 
 A list of plugins that should be removed from the project.
 
+
 ## Related
 
 See [`gulp-cordova`](https://github.com/SamVerschueren/gulp-cordova) for the full list of available packages.
 
-## Contributors
-
-- Sam Verschueren [<sam.verschueren@gmail.com>]
 
 ## License
 
