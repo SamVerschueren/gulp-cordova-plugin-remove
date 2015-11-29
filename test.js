@@ -1,84 +1,44 @@
-'use strict';
+import test from 'ava';
+import {cordova} from 'cordova-lib';
+import sinon from 'sinon';
+import Promise from 'pinkie-promise';
+import gutil from 'gulp-util';
+import fn from './';
 
-/**
- * Test runner for gulp-cordova-plugin-remove.
- * 
- * @author Sam Verschueren      <sam.verschueren@gmail.com>
- * @since  20 Aug. 2015
- */
+function plugin(plugin, opts) {
+    let file;
 
-// module dependencies
-var chai = require('chai'),
-    sinon = require('sinon'),
-    sinonChai = require('sinon-chai'),
-    cordova = require('cordova-lib').cordova.raw,
-    Q = require('q'),
-    gutil = require('gulp-util');
+	return new Promise((resolve, reject)=> {
+		const stream = fn(plugin, opts);
 
-// Use should flavour and use sinon-chai
-chai.should();
-chai.use(sinonChai);
+		stream.on('data', () => { });
 
-var rmplugin = require('./');
+		stream.on('error', reject);
 
-describe('gulp-cordova-plugin-remove', function() {
-    
-    beforeEach(function() {
-        // Set the plugin method to a spy function
-        cordova.plugin = sinon.spy();
-    });
-    
-    describe('Simple', function() {
-        
-        it('Should remove the `cordova-plugin-globalization` plugin', function(done) {
-            var stream = rmplugin('cordova-plugin-globalization');
-            
-            stream.on('end', function() {
-                cordova.plugin.should.have.been.calledWithExactly('rm', 'cordova-plugin-globalization');
-                
-                done();
-            });
-            
-            stream.on('data', function() {});
-            
-            stream.end();
-        });
-    });
-    describe('List', function() {
-        
-        it('Should call the remove plugin twice', function(done) {
-            var stream = rmplugin([
-                'org.apache.cordova.dialogs',
-                'org.apache.cordova.camera'
-            ]);
-            
-            stream.on('end', function() {
-                cordova.plugin.should.have.been.calledTwice;
-                
-                done();
-            });
-            
-            stream.on('data', function() {});
-            
-            stream.end();
-        });
-        
-        it('Should call the remove plugin for `org.apache.cordova.dialogs` and `org.apache.cordova.camera`', function(done) {
-            var stream = rmplugin([
-                'org.apache.cordova.dialogs',
-                'org.apache.cordova.camera'
-            ]);
-            
-            stream.on('end', function() {
-                cordova.plugin.should.have.been.calledWithExactly('rm', 'org.apache.cordova.dialogs');
-                cordova.plugin.should.have.been.calledWithExactly('rm', 'org.apache.cordova.camera');
-                
-                done();
-            });
-            
-            stream.on('data', function() {});
-            
-            stream.end();
-        });
-    });
+		stream.on('end', resolve);
+
+		stream.write(new gutil.File());
+
+		stream.end();
+	});
+}
+
+test.beforeEach(t => {
+	cordova.raw.plugin = sinon.stub().returns(Promise.resolve());
+	t.end();
+});
+
+test.serial('rm', async t => {
+	await plugin('foo');
+
+	t.is(cordova.raw.plugin.callCount, 1);
+	t.same(cordova.raw.plugin.lastCall.args, ['rm', 'foo']);
+});
+
+test.serial('rm list', async t => {
+	await plugin(['foo', 'bar']);
+
+	t.is(cordova.raw.plugin.callCount, 2);
+	t.same(cordova.raw.plugin.args[0], ['rm', 'foo']);
+	t.same(cordova.raw.plugin.args[1], ['rm', 'bar']);
 });
