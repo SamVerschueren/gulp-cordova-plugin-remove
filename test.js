@@ -3,7 +3,10 @@ import {cordova} from 'cordova-lib';
 import sinon from 'sinon';
 import Promise from 'pinkie-promise';
 import gutil from 'gulp-util';
+import errorEx from 'error-ex';
 import fn from './';
+
+const CordovaError = errorEx('CordovaError');
 
 function plugin(plugin, opts) {
     let file;
@@ -44,11 +47,39 @@ test.serial('rm list', async t => {
 });
 
 test.serial('error', async t => {
-	cordova.raw.plugin = function () {
+	cordova.raw.plugin = () => {
 		return new Promise((resolve, reject) => {
 			reject(new Error('something went wrong'));
 		});
 	}
 
 	await t.throws(plugin('foo'), 'something went wrong');
+});
+
+test.serial('CordovaError', async t => {
+	cordova.raw.plugin = (action, plugin) => {
+		return new Promise((resolve, reject) => {
+			const err = new CordovaError('random cordova error');
+			err.code = 0;
+			err.context = undefined;
+			
+			reject(err);
+		});
+	}
+	
+	await t.throws(plugin('foo'), 'random cordova error');
+});
+
+test.serial('plugin does not exist', async t => {
+	cordova.raw.plugin = (action, plugin) => {
+		return new Promise((resolve, reject) => {
+			const err = new CordovaError(`Plugin "${plugin}" is not present in the project. See \`cordova plugin list\`.`);
+			err.code = 0;
+			err.context = undefined;
+			
+			reject(err);
+		});
+	}
+	
+	await t.doesNotThrow(plugin('foo'));
 });

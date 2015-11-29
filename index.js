@@ -25,5 +25,11 @@ module.exports = function (plugins) {
 function rm(plugin) {
 	gutil.log('\tremove ' + plugin);
 
-	return cordova.plugin('rm', plugin);
+	return cordova.plugin('rm', plugin)
+		.catch(function (err) {
+			var regExp = new RegExp('Plugin "' + plugin + '" is not present in the project');
+			if (err.name !== 'CordovaError' || !regExp.test(err.message)) {
+				throw err;
+			}
+		});
 }

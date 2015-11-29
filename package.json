@@ -39,6 +39,7 @@
   "devDependencies": {
     "ava": "*",
     "coveralls": "^2.11.4",
+    "error-ex": "^1.3.0",
     "nyc": "^3.2.2",
     "sinon": "^1.17.2",
     "xo": "*"
