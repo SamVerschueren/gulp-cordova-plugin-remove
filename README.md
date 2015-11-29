@@ -17,16 +17,10 @@ npm install --save-dev gulp-cordova-plugin-remove
 
 ```js
 const gulp = require('gulp');
-const create = require('gulp-cordova-create');
-const android = require('gulp-cordova-build-android');
-const plugin = require('gulp-cordova-plugin');
 const rmplugin = require('gulp-cordova-plugin-remove');
 
-gulp.task('build', () => {
-    return gulp.src('dist')
-        .pipe(create())
-        .pipe(plugin('cordova-plugin-console'))
-        .pipe(android())
+gulp.task('clean', () => {
+    return gulp.src('.cordova')
         .pipe(rmplugin('cordova-plugin-console'));
 });
 ```
